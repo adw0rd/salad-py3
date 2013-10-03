@@ -28,7 +28,8 @@ for finder_string, finder_function in ELEMENT_FINDERS.iteritems():
                 _get_element(finder_function, first, last, find_pattern, expect_not_to_find=True)
             except ElementDoesNotExist:
                 assert parsed_negator(negate)
-
+	    else:
+                assert not parsed_negator(negate)
         return _this_step
 
     globals()["form_visible_%s" % (finder_function,)] = _visible_generator(finder_string, finder_function)
