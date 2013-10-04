@@ -4,6 +4,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.errorhandler import StaleElementReferenceException
 from salad.steps.browser.finders import ELEMENT_FINDERS, ELEMENT_THING_STRING, _get_element, _convert_pattern_to_css
 from salad.tests.util import assert_equals_with_negate
+from salad.logger import logger
 
 # What's happening here? We're generating steps for every possible permuation of the element finder
 
@@ -44,7 +45,8 @@ for finder_string, finder_function in ELEMENT_FINDERS.iteritems():
             ele = _get_element(finder_function, first, last, find_pattern)
             try:
                 ele.value = file_name
-            except:  # Zope
+            except Exception, e:  # Zope
+                logger.exception(e)
                 ele._control.value = file_name
 
         return _this_step
