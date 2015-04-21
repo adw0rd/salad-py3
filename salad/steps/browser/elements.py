@@ -20,7 +20,7 @@ def should_see_a_link_called(step, negate, text):
 def should_see_a_link_to(step, negate, link):
     assert_with_negate(len(world.browser.find_link_by_href(link)) > 0, negate)
 
-for finder_string, finder_function in ELEMENT_FINDERS.iteritems():
+for finder_string, finder_function in ELEMENT_FINDERS.items():
     def _visible_generator(finder_string, finder_function):
         @step(r'should( not)? see (?:the|a|an)( first)?( last)? %s %s' % (ELEMENT_THING_STRING, finder_string))
         def _this_step(step, negate, first, last, find_pattern):
@@ -28,7 +28,7 @@ for finder_string, finder_function in ELEMENT_FINDERS.iteritems():
                 _get_element(finder_function, first, last, find_pattern, expect_not_to_find=True)
             except ElementDoesNotExist:
                 assert parsed_negator(negate)
-	    else:
+            else:
                 assert not parsed_negator(negate)
         return _this_step
 
