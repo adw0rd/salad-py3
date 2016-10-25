@@ -15,9 +15,12 @@ for finder_string, finder_function in ELEMENT_FINDERS.items():
         def _this_step(step, first, last, find_pattern, text):
             ele = _get_element(finder_function, first, last, find_pattern)
             try:
-                ele.value = text
+                ele.type(text)
             except:
-                ele._control.value = text
+                try:
+                    ele.value = text
+                except:
+                    ele._control.value = text
 
         return _this_step
 
