@@ -4,26 +4,24 @@ from salad.logger import logger
 
 
 @before.all
-def setup_master_browser():
+def setup_master_browser(**kwargs):
     try:
         browser = world.drivers[0]
         remote_url = world.remote_url
     except AttributeError as IndexError:
         browser = 'firefox'
         remote_url = None
-
-    world.master_browser = setup_browser(browser, remote_url)
+    world.master_browser = setup_browser(browser, remote_url, **kwargs)
     world.browser = world.master_browser
 
 
-def setup_browser(browser, url=None):
+def setup_browser(browser, url=None, **kwargs):
     logger.info("Setting up browser %s..." % browser)
     try:
         if url:
-            browser = Browser('remote', url=url,
-                    browser=browser)
+            browser = Browser('remote', url=url, browser=browser, **kwargs)
         else:
-            browser = Browser(browser)
+            browser = Browser(browser, **kwargs)
     except Exception as e:
         logger.warn("Error starting up %s: %s" % (browser, e))
         raise
